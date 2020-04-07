@@ -5,6 +5,9 @@ function saveBookmark(e){
   var siteName = document.getElementById('siteName').value;
   var siteUrl = document.getElementById('siteUrl').value;
 
+  if(!validateForm(siteName,siteUrl)){
+    return false;
+  }
 
   var bookmark = {
     name: siteName,
@@ -28,6 +31,10 @@ function saveBookmark(e){
 
     
   }
+  //clear form
+  document.getElementById('myForm').reset();
+
+
   fetchBookmarks();
 
   e.preventDefault();
@@ -74,4 +81,22 @@ function fetchBookmarks(){
 
 
   }
+}
+
+function validateForm(siteName,siteUrl){
+  
+  if(!siteName || !siteUrl){
+    alert('Please fill in the form');
+    return false;
+  }
+
+  var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  var regex = new RegExp(expression);
+
+  if(!siteUrl.match(regex)){
+    alert('Please use Valid URL!');
+    return false;
+  }
+
+  return true;
 }
